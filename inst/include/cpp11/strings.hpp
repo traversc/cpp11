@@ -130,6 +130,16 @@ inline r_vector<r_string>::r_vector(std::initializer_list<r_string> il)
   });
 }
 
+template <>
+inline void r_vector<r_string>::push_back_fast(const std::string & value) {
+  while (length_ >= capacity_) {
+    reserve(capacity_ == 0 ? 1 : capacity_ *= 2);
+  }
+  set_elt(data_, length_, Rf_mkCharLenCE(value.c_str(), value.size(), CE_UTF8));
+  ++length_;
+
+}
+
 typedef r_vector<r_string> strings;
 
 template <typename T>
@@ -142,6 +152,7 @@ inline void r_vector<T>::push_back(const named_arg& value) {
   cpp11::writable::strings nms(names());
   nms[size() - 1] = value.name();
 }
+
 
 }  // namespace writable
 

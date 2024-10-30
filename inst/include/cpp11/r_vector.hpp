@@ -235,6 +235,7 @@ class r_vector : public cpp11::r_vector<T> {
   proxy at(const r_string& name) const;
 
   void push_back(T value);
+  void push_back_fast(const std::string & value);
   /// Implemented in `strings.hpp`
   void push_back(const named_arg& value);
   void pop_back();
@@ -1065,6 +1066,11 @@ inline void r_vector<T>::push_back(T value) {
   }
 
   ++length_;
+}
+
+template <typename T>
+inline void r_vector<T>::push_back_fast(const std::string & value) {
+  // nothing, just testing
 }
 
 template <typename T>
